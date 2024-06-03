@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CiEdit } from "react-icons/ci";
 import Spinner from '../../Component/Commen/Spinner';
+import {dashboard} from '../../Services/operations/apiDashboard';
+
 function Profile() {
 
 	var { user } = useSelector((state) => state.profile);
 	var user = user ? JSON.parse(user) : null;
+	const {token} = useSelector((s)=> s.auth);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		console.log(user);
+		dispatch(dashboard(user._id,token));
+		console.log();
 	}, []);
 
 

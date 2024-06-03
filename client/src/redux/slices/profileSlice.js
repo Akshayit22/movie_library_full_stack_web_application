@@ -15,10 +15,10 @@ const profileSlice = createSlice({
             //localStorage.setItem("user",JSON.stringify(value.payload));
         },
         addPlayList:(state,action)=>{
-            playList.push(action.payload);
+            state.playList.push(action.payload);
         },
         removePlayList:(state,action)=>{
-            return playList.filter((item) => item.id !== action.payload);
+            return state.playList.filter((item) => item.id !== action.payload);
         },
     }
 });
