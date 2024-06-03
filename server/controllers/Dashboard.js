@@ -82,7 +82,7 @@ exports.playListModification = async(req, res) => {
 		return res.status(200).json({
 			success: true,
 			newPlayList,
-			message: "Dashboard details fetched successfully",
+			message: "Watch List modified successfully",
 		});
 
 	}catch(error){

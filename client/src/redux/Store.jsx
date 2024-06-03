@@ -1,15 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import authReducer from './slices/authSlice';
-import propertyReducer from "./slices/propertySlice";
-import dashboardReducer from './slices/dashboardSlice';
-
+import profileSlice from './slices/profileSlice';
 
 
 const rootReducer = combineReducers({
 	auth:authReducer,
-	property:propertyReducer,
-	dashboard:dashboardReducer,
+	profile:profileSlice,
 	
 });
     

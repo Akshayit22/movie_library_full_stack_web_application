@@ -1,26 +1,20 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
+import Profile from './pages/common/Profile';
 import PrivateRoute from './Component/Auth/PrivateRoute';
 import OpenRoute from './Component/Auth/OpenRoute';
-import ResetPassword from './pages/ResetPassword';
 import GetStarted from './pages/GetStarted';
 import Navbar from './pages/common/Navbar';
 import Footer from './pages/common/Footer';
-import Property from './pages/property/Property';
-import NewProperty from './pages/property/BlogForm/NewProperty';
-import UpdatedProperty from './pages/property/BlogForm/UpdatedProperty';
-// import Blog from './pages/blog/blog';
-// import NewBlog from './pages/blog/BlogForm/NewBlog';
-// import UpdatedBlog from './pages/blog/BlogForm/UpdatedBlog';
+
 
 function App() {
 
   return (
-    <div className=' lg:w-[98.9vw]  min-h-screen bg-gradient-to-r from-richblack-700 to-blue-900 flex flex-col text-white'>
+    <div className=' lg:w-[98.9vw]  min-h-screen bg-gradient-to-r  flex flex-col'>
 
-      <div className='pb-[70px]'>
+      <div className=''>
           <Navbar></Navbar>
       </div>
 
@@ -31,17 +25,9 @@ function App() {
 
         <Route path='/home' element={<Home></Home>}></Route>
 
-        <Route path='/resetPassword' element={<OpenRoute><ResetPassword /></OpenRoute>} />
-
-        <Route path='/property/:id' element={<PrivateRoute><Property></Property></PrivateRoute>} />
-
-        <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-
-        <Route path='/createProperty' element={<PrivateRoute><NewProperty></NewProperty></PrivateRoute>}></Route>
-
-        <Route path='/updateProperty/:id' element={<PrivateRoute> <UpdatedProperty></UpdatedProperty> </PrivateRoute>} />
+        <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
         
-        <Route path='*' element={<h1>Page Not Found 404</h1>}></Route>
+        <Route path='*' element={<h1 className='min-h-screen flex justify-center center text-3xl '>Page Not Found 404</h1>}></Route>
       </Routes>
 
 

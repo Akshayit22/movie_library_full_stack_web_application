@@ -1,18 +1,41 @@
 import apiConnector from "../apiConnector";
-import { DashboardEndpoints } from "../api";
+import { ProfileEndpoints } from "../api";
 import { toast } from "react-hot-toast";
 
-const {DASHBOARD_API, LikeOrDislike_API, Interested_API} = DashboardEndpoints;
+const {UPDATE_USER_API, DASHBOARD_API, PLAYLIST_MODIFICATION } = ProfileEndpoints;
 
-import {setOwnedProperties,setInterestedProperties} from '../../redux/slices/dashboardSlice';
-
-export function dashboard(token){
+export function dashboard(creatorId,token){
 	return async (dispatch) => {
 		const toastId = toast.loading("Loading...");
 
 		try {
 			console.log("DASHBOARD_API", DASHBOARD_API);
-			const response = await apiConnector("POST",DASHBOARD_API,{token});
+			const response = await apiConnector("POST",DASHBOARD_API,{creatorId,token});
+
+			if (!response.data.success) {
+				throw new Error(response.data.message)
+			}
+			toast.success(response.data.message);
+
+			console.log(response.data);
+		}
+		catch (error) {
+			console.log(error);
+			toast.error(error?.response?.data?.message);
+		}
+
+		toast.dismiss(toastId);
+	}
+}
+
+
+export function updateUser(userId, firstName, lastName, email, playListType, token){
+	return async (dispatch) => {
+		const toastId = toast.loading("Loading...");
+
+		try {
+			console.log("UPDATE_USER_API", UPDATE_USER_API);
+			const response = await apiConnector("POST",UPDATE_USER_API,{userId, firstName, lastName, email, playListType, token});
 
 			if (!response.data.success) {
 				throw new Error(response.data.message)
@@ -21,9 +44,15 @@ export function dashboard(token){
 
 			console.log(response.data);
 
-			dispatch(setInterestedProperties(response.data.IntrestedProperties));
-			dispatch(setOwnedProperties(response.data.OwnedProperties));
+			dispatch(setUser(JSON.stringify({ ...response.data.user,})));
 
+			localStorage.setItem("user", JSON.stringify(response.data.user))
+				
+			toast.success('User Update Success.');
+			setTimeout(()=>{
+				navigate("/profile");
+			},1000);
+			toast.success('Welcome to Profile');
 		}
 		catch (error) {
 			console.log(error);
@@ -35,37 +64,13 @@ export function dashboard(token){
 }
 
 
-export function interested(PropertyId,token){
+export function playListModification(userId, imdbId, mode, token) {
 	return async (dispatch) => {
 		const toastId = toast.loading("Loading...");
 
 		try {
-			console.log("Interested_API", Interested_API);
-			const response = await apiConnector("PUT",Interested_API,{PropertyId,token});
-
-			if (!response.data.success) {
-				throw new Error(response.data.message)
-			}
-			toast.success(response.data.message);
-			console.log(response.data.saveIntrested);
-		}
-		catch (error) {
-			console.log(error);
-			toast.error(error?.response?.data?.message);
-		}
-
-		toast.dismiss(toastId);
-	}
-}
-
-
-export function likeOrDislike(PropertyId,mode,token) {
-	return async (dispatch) => {
-		const toastId = toast.loading("Loading...");
-
-		try {
-			console.log("LikeOrDislike_API", LikeOrDislike_API);
-			const response = await apiConnector("PUT",LikeOrDislike_API,{PropertyId,mode,token});
+			console.log("PLAYLIST_MODIFICATION", PLAYLIST_MODIFICATION);
+			const response = await apiConnector("PUT",PLAYLIST_MODIFICATION,{userId,imdbId,mode,token});
 
 			if (!response.data.success) {
 				throw new Error(response.data.message)

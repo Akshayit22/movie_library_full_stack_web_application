@@ -14,7 +14,7 @@ const PrivateRoute = ({children}) => {
 			<div className='flex flex-col h-screen items-center gap-5 align-center pt-[15vh] '>
 				<h1 className='text-[3vh] md:text-[4vh] text-red'>You are Not Logged In</h1>
 				<h2 className='text-[2vh] md:text-[3vh]'>Please Login or SignUp</h2>
-				<button onClick={()=>{navigator('/user-auth')}} className='btn bg-blue-600 text-white  font-semibold px-3 py-1 rounded hover:bg-blue-700 duration-500 md:static w-fit justify-center' >Get Started</button>
+				<button onClick={()=>{navigator('/user-auth')}} className='btn bg-black text-white  font-semibold px-3 py-1 rounded hover:bg-richblack-700 duration-500 md:static w-fit justify-center' >Get Started</button>
 			</div>
 		)
 	)

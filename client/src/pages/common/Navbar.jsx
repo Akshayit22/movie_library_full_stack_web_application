@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { CiMenuBurger } from "react-icons/ci";
-import { RxCross1 } from "react-icons/rx";
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+// import { FaShoppingCart, FaSearch } from "react-icons/fa";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import logo from "./logo.png";
 import { logout } from '../../Services/operations/apiAuth';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+
 const Navbar = () => {
 
-	const Navigate = useNavigate();
+    const Navigate = useNavigate();
 	const dispatch = useDispatch();
 	const location = useLocation();
 	let [open, setOpen] = useState(false);
 
-	var { user } = useSelector((state) => state.dashboard);
+	var {user} = useSelector((state) => state.profile);
 	var user = user?JSON.parse(user):null;
 	const [getstarted, setGetStarted] = useState(true);
 	
@@ -20,11 +22,6 @@ const Navbar = () => {
 		dispatch(logout());
 		Navigate('/');
 	}
-
-	let Links =[
-		{name:"home",link:"/home"},
-		{name:"profile",link:"/dashboard"},
-	      ];
 	
 	useEffect(()=>{
 		setOpen(false);
@@ -35,39 +32,52 @@ const Navbar = () => {
 		}
 	},[location]);
 
-	return (
-		<div className='shadow-md w-full fixed top-0 left-0 z-30'>
-			<div className='md:flex items-center justify-between bg-richblack-700 py-4 md:px-10 px-7'>
-				{/* logo  */}
-				<div className='font-bold text-2xl cursor-pointer flex items-center gap-1' onClick={()=>Navigate('/home')}>
-					
-					<span>Rentify</span>
-				</div>
-				{/* Menu icon */}
-				<div onClick={() => setOpen(!open)} className='absolute right-8 top-6 cursor-pointer md:hidden w-7 h-7 text-3xl'>
-					{
-						open ? <RxCross1 /> : <CiMenuBurger />
-					}
-				</div>
-				{/* linke items */}
-				<ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-12 bg-richblack-800' : 'top-[-490px]'} `}>
-					{
-						Links.map((link,index) => (
-							<li key={index} className='md:ml-8 md:my-0 my-7 font-semibold'>
-								<a onClick={()=>Navigate(link.link)} className='text-gray-800 hover:text-blue-400 duration-500 cursor-pointer'>{link.name.toUpperCase()}</a>
-							</li>))
-					}
-					{
+
+
+    return (
+        <div className="">
+            <nav className="flex justify-between items-center h-20 max-w-6xl mx-auto gap-2 shadow-md">
+
+                <NavLink to="/">
+                    <div className="md:ml-5 ml-2" >
+                        <img src={logo} alt="logo" height={100} width={150} />
+                    </div>
+                </NavLink>
+
+                <div className="flex items-center font-medium text-slate-100 mr-5 md:space-x-6 space-x-1">
+
+                    <NavLink to="/">
+                        <p className="text-xl">Home</p>
+                    </NavLink>
+
+                    
+                    <NavLink to="/profile">
+                        <div className="relative">
+                            
+                            <p className="text-xl">Profile & Watch-List</p>
+
+                            {/* {
+                                cart.length > 0 &&
+                                (<span className="absolute -top-1 -right-2 bg-green-600 text-x5 w-5 h-5 flex justify-center items-center animate-bounce rounded-full text-white">
+
+                                    {cart.length}</span>)
+                            } */}
+                        </div>
+                    </NavLink>
+
+                    {
 						getstarted==true?
-						(<button onClick={()=> Navigate('/user-auth')} className='btn bg-blue-600 text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static' >Get Started</button>)
-						:(<button onClick={()=>logoutFunc()} className='btn bg-blue-600 text-white md:ml-8 font-semibold px-3 py-1 rounded  duration-500 hover:bg-blue-800 md:static' >Log Out</button>)
+						(<button onClick={()=> Navigate('/user-auth')} className='btn bg-richblack-900 text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static' >Get Started</button>)
+						:(<button onClick={()=>logoutFunc()} className='btn bg-richblack-900 text-white md:ml-8 font-semibold px-3 py-1 rounded  duration-500 hover:bg-richblack-700 md:static' >Log Out</button>)
 					}
-					
-				</ul>
-				{/* button */}
-			</div>
-		</div>
-	)
+
+                </div>
+
+            </nav>
+        </div>
+
+
+    )
 };
 
 export default Navbar;
